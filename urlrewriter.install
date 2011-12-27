@@ -1,1 +1,54 @@
 <?php
+
+/**
+ * @file
+ *   The whole install/uninstall process.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function urlrewriter_schema() {
+  $schema = array();
+
+  $schema['url_rewriting'] = array(
+    'description' => 'Table for each rewriting settings',
+    'fields' => array(
+      'urid' => array(
+        'description' => 'The primary identifier for a Url rewriting setting.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'path' => array(
+        'description' => 'The {url_rewriting_path} of this setting.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'setting' => array(
+        'type' => 'blob',
+        'size' => 'big',
+
+      )
+    ),
+  );
+
+
+  return $schema;
+}
+
+/**
+ * Implements hook_install();
+ */
+function urlrewriter_install() {
+  drupal_install_schema('urlrewriter');
+}
+
+/**
+ * Implements hook_uninstall();
+ */
+function urlrewriter_uninstall() {
+  drupal_uninstall_schema('urlrewriter');
+}

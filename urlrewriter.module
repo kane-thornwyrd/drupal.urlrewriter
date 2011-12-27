@@ -1,1 +1,48 @@
 <?php
+
+/**
+ * @file
+ *   Contain nearly all the hooks implementations for this module.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function urlrewriter_menu() {
+  $menu = array();
+
+  $base = array(
+    'title callback' => 'urlrewriting_title',
+  );
+
+  $menu['admin/structure/urlrewriting'] = array(
+    'title arguments' => array(),
+    'access arguments' => array('administer url rewriting'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('urlrewriter_admin'),
+    'file' => 'urlrewriter.admin.inc'
+  ) + $base;
+
+  $menu['admin/structure/urlrewriting/%url/edit'] = array(
+    'title arguments' => array(3),
+    'access arguments' => array('administer url rewriting'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('urlrewriter_admin'),
+    'file' => 'urlrewriter.admin.inc'
+  ) + $base;
+
+  return $menu;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function urlrewriter_permission() {
+  return array(
+    'administer url rewriting' => array(
+      'title' => t('Administer Url Rewriting'),
+      'description' => t('Allow to administer how urls are altered when the site is accessed through specific paths.'),
+      'restrict access' => TRUE
+    )
+  );
+}

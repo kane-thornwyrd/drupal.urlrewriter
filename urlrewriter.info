@@ -1,6 +1,6 @@
 name = UrlRewriter
-description = 
+description = "Allow to rewrite nearly all url from your drupal when called through a specific path"
 core = 7.x
 php = 5.3
-;files[] = 
+;files[] =
 configure = admin/structure/urlrewriting
