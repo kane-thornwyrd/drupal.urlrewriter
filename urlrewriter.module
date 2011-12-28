@@ -24,7 +24,7 @@ function urlrewriter_menu() {
   ) + $base;
 
   $menu['admin/structure/urlrewriting/%url/edit'] = array(
-    'title arguments' => array(3),
+    'title arguments' => array(3, 4),
     'access arguments' => array('administer url rewriting'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('urlrewriter_admin'),
@@ -45,4 +45,20 @@ function urlrewriter_permission() {
       'restrict access' => TRUE
     )
   );
+}
+
+/**
+ * Page Title callback called by the hook_menu implementation.
+ *
+ * @param UrlRewriteUrl $url
+ *   The object that encapsulate 
+ *
+ * @return string
+ *    The appropriate title.
+ */
+function urlrewriting_title($url = NULL, $action = NULL){
+  if ($url !== NULL) {
+    return $url->getTitle($action);
+  }
+  return t('Url Rewriting');
 }
