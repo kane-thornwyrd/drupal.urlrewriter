@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * @file
+ *   Contain nearly all the hooks implementations for this module.
+ */
+ 
+/**
+ * Implements hook_menu().
+ */
+function urlrewriter_menu() {
+  $menu = array();
+
+  return $menu;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function urlrewriter_permission() {
+  return array(
+    'administer url rewriting' => array(
+      'title' => t('Administer Url Rewriting'),
+      'description' => t('Allow to administer how urls are altered when the site is accessed through specific paths.'),
+      'restrict access' => TRUE
+    )
+  );
+}

@@ -2,7 +2,7 @@ UrlRewriter
 =====================
 
 CONTENTS OF THIS FILE
-------------
+---------------------
 
  * Introduction
  * requirements
@@ -12,16 +12,16 @@ CONTENTS OF THIS FILE
 INTRODUCTION
 ------------
 
-Current Maintainer: "Jean-cédric Thérond" <jean.cedric.t@gmail.com>
+Current Maintainer: Jean-cédric Thérond <jean.cedric.t@gmail.com>
 
-Allow to rewrite nearly all in-content urls delivered when called through a specific path.
+[description]
 
 
 
 REQUIREMENTS
 ------------
 
-1.
+1. 
 
 
 
