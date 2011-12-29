@@ -4,3 +4,5 @@ core = 7.x
 php = 5.3
 ;files[] =
 configure = admin/structure/urlrewriting
+
+dependencies[] = ctools

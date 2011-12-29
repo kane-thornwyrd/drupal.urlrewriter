@@ -25,13 +25,50 @@ function urlrewriter_schema() {
         'type' => 'varchar',
         'length' => 255,
         'not null' => TRUE,
-        'default' => '',
       ),
-      'setting' => array(
+      'base_url' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ),
+      'prefix' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ),
+      'arguments' => array(
         'type' => 'blob',
         'size' => 'big',
-
-      )
+        'not null' => TRUE,
+        'serialize' => TRUE
+      ),
+      'target' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ),
+      'attributes' => array(
+        'description' => 'The attributes for all the links.',
+        'type' => 'blob',
+        'size' => 'big',
+        'not null' => TRUE,
+        'serialize' => TRUE
+      ),
+    ),
+    'primary key' => array('urid'),
+    'unique keys' => array(
+      'path' => array('path'),
+    ),
+    'export' => array(
+      'key' => 'path',
+      'identifier' => 'urlrewriting', // Exports will be defined as $preset
+      'default hook' => 'default_urlrewriter_preset',  // Function hook name.
+      'api' => array(
+        'owner' => 'urlrewriter',
+        'api' => 'default_urlrewriter_presets',  // Base name for api include files.
+        'minimum_version' => 1,
+        'current_version' => 1,
+      ),
     ),
   );
 
@@ -43,12 +80,10 @@ function urlrewriter_schema() {
  * Implements hook_install();
  */
 function urlrewriter_install() {
-  drupal_install_schema('urlrewriter');
 }
 
 /**
  * Implements hook_uninstall();
  */
 function urlrewriter_uninstall() {
-  drupal_uninstall_schema('urlrewriter');
 }

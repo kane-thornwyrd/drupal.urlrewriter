@@ -4,32 +4,16 @@
  * @file
  *   Contain nearly all the hooks implementations for this module.
  */
+/**
+ * Minimum CTools version needed.
+ */
+define('URLREWRITER_REQUIRED_CTOOLS_API', '1.7');
 
 /**
  * Implements hook_menu().
  */
 function urlrewriter_menu() {
   $menu = array();
-
-  $base = array(
-    'title callback' => 'urlrewriting_title',
-  );
-
-  $menu['admin/structure/urlrewriting'] = array(
-    'title arguments' => array(),
-    'access arguments' => array('administer url rewriting'),
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('urlrewriter_admin'),
-    'file' => 'urlrewriter.admin.inc'
-  ) + $base;
-
-  $menu['admin/structure/urlrewriting/%url/edit'] = array(
-    'title arguments' => array(3, 4),
-    'access arguments' => array('administer url rewriting'),
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('urlrewriter_admin'),
-    'file' => 'urlrewriter.admin.inc'
-  ) + $base;
 
   return $menu;
 }
@@ -51,14 +35,63 @@ function urlrewriter_permission() {
  * Page Title callback called by the hook_menu implementation.
  *
  * @param UrlRewriteUrl $url
- *   The object that encapsulate 
+ *   The object that encapsulate
  *
  * @return string
  *    The appropriate title.
  */
-function urlrewriting_title($url = NULL, $action = NULL){
+function urlrewriting_title($url = NULL, $action = NULL) {
   if ($url !== NULL) {
     return $url->getTitle($action);
   }
   return t('Url Rewriting');
+}
+
+/**
+ * Implements of hook_ctools_plugin_api().
+ */
+function urlrewriter_ctools_plugin_api($module, $api) {
+  if ($module === 'urlrewriter' && ($api === 'plugins' || $api === 'default_urlrewriter_preset') ){
+    return array('version' => 1);
+  }
+}
+
+/**
+ * Implement of hook_ctools_plugin_directory().
+ */
+function urlrewriter_ctools_plugin_directory($module, $type) {
+  // Safety: go away if CTools is not at an appropriate version.
+  if (!module_invoke('ctools', 'api_version', URLREWRITER_REQUIRED_CTOOLS_API)) {
+    return;
+  }
+  if ($type == 'export_ui') {
+    return 'plugins/export_ui';
+  }
+}
+
+/**
+ * Implementation of hook_default_mymodule_preset().
+ *
+ * Provide a couple of default presets.
+ */
+function urlrewriter_default_urlrewriter_preset() {
+
+  global $base_url;
+
+  $export = array();
+
+
+
+  $preset = new stdClass;
+  $preset->api_version = 1;
+  $preset->path = $base_url . '/test_urlrewrite';
+  $preset->base_url = $base_url . '/admin/structure/urlrewriting/test/ok';
+  $preset->prefix = '';
+  $preset->arguments = array();
+  $preset->target = '';
+  $preset->attributes = array();
+  $export['my_default_preset'] = $preset;
+
+
+  return $export;
 }
